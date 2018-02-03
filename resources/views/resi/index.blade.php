@@ -32,7 +32,7 @@
                         <td>{{ $resi->provinsi }}</td>
                         <td>{{ $resi->alamat }}</td>
                         <td>{{ $resi->ekpedisi}}</td>
-                        <td>{{ $resi->ongkir }}</td>
+                        <td>Rp. {{ number_format($resi->ongkir, 2) }}</td>
                         <td>
                             <div class="box-button">{{ link_to('resi/' . $resi->noresi, 'Detail', ['class' => 'btn btn-success btn-sm']) }} </div>
                             <div class="box-button">{{ link_to('resi/' . $resi->noresi . '/edit', 'Edit', ['class' => 'btn btn-warning btn-sm'])}} </div>
