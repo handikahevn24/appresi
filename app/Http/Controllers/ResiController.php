@@ -32,7 +32,8 @@ class ResiController extends Controller
         $jumlah_resi = $resi_list->count();
         $total_ongkir = $resi_all->sum('ongkir');
         $total_resi = $resi_all->count();
-        return view('resi.index', compact('resi_list', 'jumlah_resi', 'total_ongkir','total_resi'));
+        $no = $resi_list->perPage() * ($resi_list->currentPage() -1)+1;
+        return view('resi.index', compact('no','resi_list', 'jumlah_resi', 'total_ongkir','total_resi'));
         
     }
 
@@ -119,10 +120,10 @@ class ResiController extends Controller
     }
     public function ongkir()
     {
-        $ongkir_list = Resi::orderBy('id_toko', 'asc')->Paginate(3);
+        $ongkir_list = Resi::orderBy('id_toko', 'asc')->Paginate(10);
         $jumlah_ongkir = $ongkir_list->total();
         $total_ongkir = Resi::all()->sum('ongkir');
-        $no = 1;
+        $no = $ongkir_list->perPage() * ($ongkir_list->currentPage() -1)+1;
         return view('ongkir.index', compact('total_ongkir','ongkir_list','jumlah_ongkir','no'));
     }
 
@@ -142,11 +143,12 @@ class ResiController extends Controller
         if(!empty($dari)){
 
         
-        $resi_list = Resi::whereBetween('tanggal_resi',[$dari, $ke])
-                     ->orderBy('tanggal_resi','asc')->paginate(1);
+        $resi_list = Resi::whereBetween('tanggal_resi',[$dari, $ke]);
+        $jumlah_ongkir = $resi_list->sum('ongkir');
+        $resi_list =  $resi_list->orderBy('tanggal_resi','asc')->paginate(10);
                      $pagination = $resi_list->appends($request->except('page'));
-
-        return view('resi.index', compact('dari',  'ke', 'subQuery', 'resi_list', 'pagination','jumlah_resi'));
+        $no = 1;
+        return view('resi.index', compact('jumlah_ongkir','no','dari',  'ke', 'subQuery', 'resi_list', 'pagination','jumlah_resi'));
  #       $kata_kunci = trim($request->input('kata_kunci'));
  #
  #       if(!empty($kata_kunci)){

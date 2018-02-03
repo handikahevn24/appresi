@@ -20,7 +20,7 @@
                         <td>{{$no++}}</td>
                         <td>{{$ongkir->toko->nama_toko}}</td>
                         <td>{{$ongkir->ekpedisi}}</td>
-                        <td>{{$ongkir->ongkir}}</td>
+                        <td>Rp. {{number_format($ongkir->ongkir,2)}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -32,7 +32,7 @@
         <div class="table-nav">
                 <div class="jumlah-data">
                     <strong>Jumlah ongkir: {{$jumlah_ongkir}}</strong> |
-                    <strong>Total ongkir: {{$total_ongkir}}</strong> |
+                    <strong>Total ongkir: Rp.{{number_format($total_ongkir, 2)}}</strong> |
                 </div>
                 <div class="paging">
                     {{$ongkir_list->links()}}

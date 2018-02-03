@@ -9,6 +9,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Tanggal</th>
                     <th>No Resi</th>
                     <th>Nama Toko</th>
@@ -24,6 +25,7 @@
             <tbody>
                     @foreach($resi_list as $resi)
                     <tr>
+                        <td>{{$no++}}</td>
                         <td>{{ $resi->tanggal_resi }}</td>
                         <td>{{ $resi->noresi }}</td>
                         <td>{{ $resi->toko->nama_toko }}</td>
@@ -51,10 +53,10 @@
     
     <div class="table-nav">
         <div class="jumlah-data">
-            <strong>Jumlah Resi Per Halaman: 
-                    @if(!empty($jumlah_resi)) 
+            <strong>Jumlah Ongkir: 
+                    @if(!empty($total_ongkir)) 
                     
-                    {{$jumlah_resi}}
+                    Rp. {{number_format($total_ongkir, 2)}}
                     
                     @endif
             </strong>
