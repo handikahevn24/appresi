@@ -187,7 +187,7 @@ class ResiController extends Controller
             ->where('ekpedisi',$ekpedisi) : '';
             (!empty($id_toko)) ? $query->Toko($id_toko): '';
             $total_ongkir = $query->sum('ongkir');
-            $ongkir_list = $query->paginate(2);
+            $ongkir_list = $query->paginate(10);
             //$query = Resi::where('id_toko', 'LIKE', '%'.$id_toko.'%');
             //$ongkir_list = $query->paginate(2);
             
