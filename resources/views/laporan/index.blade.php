@@ -25,7 +25,7 @@
                         </div>
                         <div class="panel-body">
                                 <p>Ekpedisi</p>
-                                <p>JNE  : Rp. </p>
+                                <p>JNE  : Rp. {{$total_ongkir_jne_minggu_ini}}</p>
                                 <p>JNT  : Rp. </p>
                                 <p>TIKI : Rp. </p>
                                 <p>POS  : Rp. </p>

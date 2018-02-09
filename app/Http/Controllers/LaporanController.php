@@ -34,6 +34,11 @@ class LaporanController extends Controller
         $ongkir_minggu_ini = Resi::where(\DB::raw('WEEK(tanggal_resi)'),$week );
         $jumlah_ongkir_minggu_ini = $ongkir_minggu_ini->sum('ongkir');
 
+        //Ongkir Mingguan JNE
+        $ongkir_minggu_ini_jne = $ongkir_minggu_ini->where('ekpedisi','JNE');
+        $total_ongkir_jne_minggu_ini = $ongkir_minggu_ini_jne->sum('ongkir');
+
+
         //Data Bulanan
         //Laporan Bulanan
         $ongkir_bulan_ini = Resi::where(\DB::raw('MONTH(tanggal_resi)'),$month);
@@ -72,7 +77,7 @@ class LaporanController extends Controller
                         ->addRows($data_ongkir);
         $lava->BarChart("Ekpedisi",$chart_ongkir);
 
-        return view('laporan.index',["lava"=>$lava], compact('week','jumlah_ongkir_minggu_ini','jumlah_ongkir_bulan_ini','jumlah_ongkir_hari_ini','ongkir_global','jumlah_ongkir_global', 'total_ongkir','ongkir_jne','total_ongkir_jne','total_ongkir_jnt','total_ongkir_tiki','total_ongkir_pos'));
+        return view('laporan.index',["lava"=>$lava], compact('week','total_ongkir_jne_minggu_ini','jumlah_ongkir_minggu_ini','jumlah_ongkir_bulan_ini','jumlah_ongkir_hari_ini','ongkir_global','jumlah_ongkir_global', 'total_ongkir','ongkir_jne','total_ongkir_jne','total_ongkir_jnt','total_ongkir_tiki','total_ongkir_pos'));
 
     }
 

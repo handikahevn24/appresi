@@ -118,6 +118,7 @@ class ResiController extends Controller
         $resi->delete();
         return redirect('resi');
     }
+
     public function ongkir()
     {
         $ongkir_list = Resi::orderBy('id_toko', 'asc')->Paginate(10);
@@ -126,14 +127,6 @@ class ResiController extends Controller
         $no = $ongkir_list->perPage() * ($ongkir_list->currentPage() -1)+1;
         return view('ongkir.index', compact('total_ongkir','ongkir_list','jumlah_ongkir','no'));
     }
-
-    public function teskoleksi()
-    {
-        $koleksi = Resi::all();
-        $koleksi = $koleksi->where('id_toko', 1);
-        return $koleksi;
-    }
-
     public function cari(Request $request)
    {
         
@@ -220,13 +213,17 @@ class ResiController extends Controller
     }
 
     public function exportExcel(){
-        $dataResi = Resi::all();
+
+        //$dataResi = Resi::join('toko', 'toko.id','=','resi.id_toko')->get();
+        $dataResi = Resi::select('noresi','nama_toko','tanggal_resi','nama_konsumen','hp_konsumen','provinsi','alamat','ekpedisi','ongkir')
+                ->join('toko', 'toko.id','=','resi.id_toko')
+                ->get();
         return Excel::create('Resi '.date('Y-m-d H:i:s'), function($excel) use($dataResi) {
-            $excel->sheet('Resi', function($sheet) use($dataResi) {
+           $excel->sheet('Resi', function($sheet) use($dataResi) {
                 $sheet->fromArray($dataResi);
             });
         })->download('xlsx');
-            
+ 
     }
     
     public function importExcel(Request $request){

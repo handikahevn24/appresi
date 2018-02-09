@@ -41,4 +41,5 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('laporan', 'LaporanController@index');
     Route::get('laporan/customtanggal', 'LaporanController@customTanggal');
     Route::get('test', 'ResiController@chart');
+    Route::delete('resi/deleteall', 'ResiController@deleteall');
 });
