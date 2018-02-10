@@ -211,8 +211,24 @@ class ResiController extends Controller
     public function importExport(){
         return view ('resi.excel');
     }
+    //Fitur Export Laporan Per Tanggal
+    public function exportExcel(Request $request){
 
-    public function exportExcel(){
+        $tanggal = $request->input('tanggal');
+        
+        if(!empty($tanggal)){
+        
+            $dataResi = Resi::select('noresi','nama_toko','tanggal_resi','nama_konsumen','hp_konsumen','provinsi','alamat','ekpedisi','ongkir')
+                ->join('toko', 'toko.id','=','resi.id_toko')
+                ->where('tanggal_resi',$tanggal)
+                ->get();
+
+            return Excel::create('Resi '.date('Y-m-d H:i:s'), function($excel) use($dataResi) {
+            $excel->sheet('Resi', function($sheet) use($dataResi) {
+                    $sheet->fromArray($dataResi);
+                });
+            })->download('xlsx');
+        }
 
         //$dataResi = Resi::join('toko', 'toko.id','=','resi.id_toko')->get();
         $dataResi = Resi::select('noresi','nama_toko','tanggal_resi','nama_konsumen','hp_konsumen','provinsi','alamat','ekpedisi','ongkir')
