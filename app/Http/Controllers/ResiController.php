@@ -132,10 +132,17 @@ class ResiController extends Controller
         
         $dari = $request->input('dari');
         $ke = $request->input('ke');
+        $nama = trim($request->input('nama'));
 
-        if(!empty($dari)){
+        if(!empty($nama)){
+            $resi_list = Resi::where('nama_konsumen','LIKE','%'. $nama . '%');
+            $resi_list =  $resi_list->orderBy('tanggal_resi','asc')->paginate(10);
+                     $pagination = $resi_list->appends($request->except('page'));
+            $no = 1;
+            return view('resi.index', compact('jumlah_ongkir','no','dari',  'ke', 'subQuery', 'resi_list', 'pagination','jumlah_resi'));
 
-        
+        }
+        if(!empty($dari)){        
         $resi_list = Resi::whereBetween('tanggal_resi',[$dari, $ke]);
         $jumlah_ongkir = $resi_list->sum('ongkir');
         $resi_list =  $resi_list->orderBy('tanggal_resi','asc')->paginate(10);
@@ -143,12 +150,9 @@ class ResiController extends Controller
         $no = 1;
         return view('resi.index', compact('jumlah_ongkir','no','dari',  'ke', 'subQuery', 'resi_list', 'pagination','jumlah_resi'));
  #       $kata_kunci = trim($request->input('kata_kunci'));
- #
  #       if(!empty($kata_kunci)){
  #           $ekpedisi = $request->input('ekpedisi');
  #           $id_toko = $request->input('id_toko');
-
-        
             //QUERY
  #           $query = Resi::where('noresi', 'LIKE', '%'. $kata_kunci . '%');
  #          (!empty($ekpedisi)) ? $query->Ekpedisi($ekpedisi) : '';
@@ -215,7 +219,7 @@ class ResiController extends Controller
     public function exportExcel(Request $request){
 
         $tanggal = $request->input('tanggal');
-        
+
         if(!empty($tanggal)){
         
             $dataResi = Resi::select('noresi','nama_toko','tanggal_resi','nama_konsumen','hp_konsumen','provinsi','alamat','ekpedisi','ongkir')
