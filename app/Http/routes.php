@@ -27,9 +27,11 @@ Route::group(['middleware' => ['web']], function(){
 
     Route::get('resi/cari', 'ResiController@cari');
     Route::get('ongkir/cari', 'ResiController@cariOngkir');
+    //Import Export
     Route::get('importexport', 'ResiController@importExport');
     Route::post('importresi', 'ResiController@importExcel');
     Route::get('exportresi', 'ResiController@exportExcel');
+    Route::get('exportview', ['uses'=>'ResiController@exportView'])->name('exportview');
     Route::get('/resi', 'ResiController@index');
     Route::get('/resi/create', 'ResiController@create');
     Route::get('/resi/{resi}', 'ResiController@show');

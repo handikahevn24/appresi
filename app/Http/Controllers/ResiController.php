@@ -215,6 +215,39 @@ class ResiController extends Controller
     public function importExport(){
         return view ('resi.excel');
     }
+
+    
+    
+    //Export dari View
+    public function exportView(Request $request){
+
+        $tanggal_sekarang = date('Y-m-d');
+        $data_toko = Toko::select('nama_toko')
+                        ->orderBy('id','ASC')->get();
+        $jumlah_toko = count($data_toko);
+        $data_ongkir_toko = Resi::groupBy('id_toko')
+                            ->selectRaw('*, sum(ongkir) as ongkir')
+                            ->where('tanggal_resi','2018-02-13')
+                            ->orderBy('id_toko','ASC')
+                            ->get();
+        $ongkir = Resi::select('ongkir')
+                            ->where('tanggal_resi','2018-02-13')
+                            ->get();
+        $hitung = $jumlah_toko - count($data_ongkir_toko);
+        $jumlah = $ongkir->sum('ongkir');
+        return Excel::create('Resi Pertoko', function($excel) use ($hitung,$jumlah,$data_toko, $data_ongkir_toko,$jumlah_toko,$tanggal_sekarang) {
+            $excel->sheet('Resi Pertoko', function($sheet) use ($hitung,$jumlah,$data_toko, $data_ongkir_toko,$jumlah_toko,$tanggal_sekarang){
+                $sheet->loadView('resi.exporttoko') ->with("data_toko", $data_toko)
+                                                    ->with("data_ongkir_toko", $data_ongkir_toko)
+                                                    ->with("tanggal_sekarang", $tanggal_sekarang)
+                                                    ->with("jumlah_toko", $jumlah_toko)
+                                                    ->with("hitung", $hitung)
+                                                    ->with("jumlah", $jumlah);
+            });
+        })->download('xlsx');
+
+    }
+
     //Fitur Export Laporan Per Tanggal
     public function exportExcel(Request $request){
 

@@ -22,6 +22,10 @@
                                 <button type="submit" class="btn btn-primary">Import</button>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <a href="{{route('exportview')}}" role="button" class="btn btn-warning">Export Pertoko</a>
+                        </div>
+
                     </form>
                 </div>
             </div>
