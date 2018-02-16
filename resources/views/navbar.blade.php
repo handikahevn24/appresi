@@ -35,6 +35,13 @@
             <li><a href="{{ url('laporan') }}">Laporan</a></li>
             @endif
 
+            @if (!empty($halaman) && $halaman == 'laporan_provinsi')
+            <li class="active"><a href="{{ url('laporan_provinsi') }}">Laporan
+            <span class="sr-only">(current)</span></a></li>
+            @else
+            <li><a href="{{ url('laporan_provinsi') }}">Laporan</a></li>
+            @endif
+            
             @if (!empty($halaman) && $halaman == 'importexport')
             <li class="active"><a href="{{ url('importexport') }}">Import / Export
             <span class="sr-only">(current)</span></a></li>

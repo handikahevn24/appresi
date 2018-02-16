@@ -304,13 +304,15 @@ class ResiController extends Controller
     }
 
     public function chart(){
-        $data = Resi::all();
-        $chart = \Charts::database(Resi::all(),'bar', 'material')
+        $data = Resi::select('resi.created_at','resi.ekpedisi',\DB::raw('SUM(ongkir) as aggregate'))
+                    ->groupBy('resi.created_at')->get();
+        $chart = \Charts::database($data,'bar', 'material')
             // Setup the chart settings
             ->title("My Cool Chart")
             ->dimensions(0, 400)
+            ->elementLabel('Ongkir')
             ->labels($data->pluck('ekpedisi'))
-            ->values($data->pluck('ongkir'));
+            ->values($data->pluck('aggregate'));
 
 
 

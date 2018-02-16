@@ -58,15 +58,15 @@ return array(
     ],
 
     'properties' => [
-        'creator'        => 'Maatwebsite',
-        'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
-        'description'    => 'Default spreadsheet export',
+        'creator'        => 'Handika',
+        'lastModifiedBy' => 'Handika',
+        'title'          => 'Resi PD GOLDEN QUEEN',
+        'description'    => 'Laporan Resi',
         'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
+        'keywords'       => 'Resi',
         'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'manager'        => 'Handika',
+        'company'        => 'GOLDEN QUEEN',
     ],
 
     /*
@@ -106,7 +106,7 @@ return array(
     |
     */
 
-    'creator'    => 'Maatwebsite',
+    'creator'    => 'Handika',
 
     'csv'        => [
         /*
@@ -463,7 +463,7 @@ return array(
         |
         */
 
-        'ignoreEmpty'             => false,
+        'ignoreEmpty'             => true,
 
         /*
         |--------------------------------------------------------------------------
