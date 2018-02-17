@@ -29,6 +29,10 @@ class Resi extends Model
     {
         return $this->belongsTo('App\Toko', 'id_toko');
     }
+    public function provinsi()
+    {
+        return $this->belongsTo('App\Provinces', 'id_provinsi');
+    }
     public function scopeToko($query, $id_toko)
     {
         return $query->where('id_toko', $id_toko);

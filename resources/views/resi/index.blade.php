@@ -24,14 +24,14 @@
             </thead>
             <tbody>
                     @foreach($resi_list as $resi)
-                    <tr>
+                    <tr  style="font-size:10px;" class="text-center">
                         <td>{{$no++}}</td>
                         <td>{{ $resi->tanggal_resi }}</td>
                         <td>{{ $resi->noresi }}</td>
                         <td>{{ $resi->toko->nama_toko }}</td>
                         <td>{{ $resi->nama_konsumen }}</td>
                         <td>{{ $resi->hp_konsumen}}</td>
-                        <td>{{ $resi->provinsi }}</td>
+                        <td>{{ $resi->provinsi ? $resi->provinsi->name : 'Tidak Ada Provinsi'}}</td>
                         <td>{{ $resi->alamat }}</td>
                         <td>{{ $resi->ekpedisi}}</td>
                         <td>Rp. {{ number_format($resi->ongkir, 2) }}</td>

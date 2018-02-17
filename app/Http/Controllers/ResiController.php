@@ -9,6 +9,7 @@ use Session;
 use App\Http\Requests;
 use App\Resi;
 use App\Toko;
+use App\Provinces;
 
 
 class ResiController extends Controller
@@ -34,7 +35,6 @@ class ResiController extends Controller
         $total_resi = $resi_all->count();
         $no = $resi_list->perPage() * ($resi_list->currentPage() -1)+1;
         return view('resi.index', compact('no','resi_list', 'jumlah_resi', 'total_ongkir','total_resi'));
-        
     }
 
     /**
@@ -304,16 +304,27 @@ class ResiController extends Controller
     }
 
     public function chart(){
-        $data = Resi::select('resi.created_at','resi.ekpedisi',\DB::raw('SUM(ongkir) as aggregate'))
-                    ->groupBy('resi.created_at')->get();
-        $chart = \Charts::database($data,'bar', 'material')
-            // Setup the chart settings
-            ->title("My Cool Chart")
-            ->dimensions(0, 400)
-            ->elementLabel('Ongkir')
-            ->labels($data->pluck('ekpedisi'))
-            ->values($data->pluck('aggregate'));
+ //       $data = Resi::select('resi.created_at','resi.ekpedisi',\DB::raw('SUM(ongkir) as aggregate'))
+ //                   ->groupBy('resi.created_at')->get();
+ //       $chart = \Charts::database($data,'bar', 'material')
+ //           // Setup the chart settings
+ //           ->title("My Cool Chart")
+ //           ->dimensions(0, 400)
+ //           ->elementLabel('Ongkir')
+ //           ->labels($data->pluck('ekpedisi'))
+ //           ->values($data->pluck('aggregate'));
 
+        $data = Resi::select('resi.created_at','resi.ekpedisi','resi.id_provinsi','indonesia_provinces.id','indonesia_provinces.name',\DB::raw('SUM(ongkir) as ongkir'))
+                    ->join('indonesia_provinces', 'indonesia_provinces.id','=','resi.id_provinsi')
+                    ->groupBy('resi.id_provinsi')
+                    ->get();
+ $chart = \Charts::database($data, 'bar', 'material')
+    ->elementLabel("Total Ongkir 2018")
+    ->dimensions(1000, 500)
+    ->title("Chart Ongkir 2018")
+    ->responsive(false)
+    ->labels($data->pluck('name'))
+    ->values($data->pluck('ongkir'));
 
 
         return view('test', ['chart' => $chart]);
